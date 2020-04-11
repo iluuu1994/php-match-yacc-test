@@ -1,0 +1,246 @@
+State 11 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: statement_list $end
+
+    1 statement_list: %empty
+    2               | statement_list statement
+
+    3 statement: expression_without_block T_SEMICOLON
+    4          | expression_with_block
+
+    5 expression: expression_without_block
+    6           | expression_with_block
+
+    7 expression_without_block: scalar
+    8                         | expression_without_block T_PLUS expression
+    9                         | T_PLUS expression
+
+   10 expression_with_block: T_MATCH T_LEFT expression T_RIGHT T_CURLY_LEFT T_CURLY_RIGHT
+
+   11 scalar: T_INT
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    T_INT <ival> (258) 11
+    T_PLUS (259) 8 9
+    T_LEFT (260) 10
+    T_RIGHT (261) 10
+    T_SEMICOLON (262) 3
+    T_MATCH (263) 10
+    T_CURLY_LEFT (264) 10
+    T_CURLY_RIGHT (265) 10
+
+
+Nonterminals, with rules where they appear
+
+    $accept (11)
+        on left: 0
+    statement_list (12)
+        on left: 1 2
+        on right: 0 2
+    statement (13)
+        on left: 3 4
+        on right: 2
+    expression <ival> (14)
+        on left: 5 6
+        on right: 8 9 10
+    expression_without_block <ival> (15)
+        on left: 7 8 9
+        on right: 3 5 8
+    expression_with_block <ival> (16)
+        on left: 10
+        on right: 4 6
+    scalar <ival> (17)
+        on left: 11
+        on right: 7
+
+
+State 0
+
+    0 $accept: . statement_list $end
+
+    $default  reduce using rule 1 (statement_list)
+
+    statement_list  go to state 1
+
+
+State 1
+
+    0 $accept: statement_list . $end
+    2 statement_list: statement_list . statement
+
+    $end     shift, and go to state 2
+    T_INT    shift, and go to state 3
+    T_PLUS   shift, and go to state 4
+    T_MATCH  shift, and go to state 5
+
+    statement                 go to state 6
+    expression_without_block  go to state 7
+    expression_with_block     go to state 8
+    scalar                    go to state 9
+
+
+State 2
+
+    0 $accept: statement_list $end .
+
+    $default  accept
+
+
+State 3
+
+   11 scalar: T_INT .
+
+    $default  reduce using rule 11 (scalar)
+
+
+State 4
+
+    9 expression_without_block: T_PLUS . expression
+
+    T_INT    shift, and go to state 3
+    T_PLUS   shift, and go to state 4
+    T_MATCH  shift, and go to state 5
+
+    expression                go to state 10
+    expression_without_block  go to state 11
+    expression_with_block     go to state 12
+    scalar                    go to state 9
+
+
+State 5
+
+   10 expression_with_block: T_MATCH . T_LEFT expression T_RIGHT T_CURLY_LEFT T_CURLY_RIGHT
+
+    T_LEFT  shift, and go to state 13
+
+
+State 6
+
+    2 statement_list: statement_list statement .
+
+    $default  reduce using rule 2 (statement_list)
+
+
+State 7
+
+    3 statement: expression_without_block . T_SEMICOLON
+    8 expression_without_block: expression_without_block . T_PLUS expression
+
+    T_PLUS       shift, and go to state 14
+    T_SEMICOLON  shift, and go to state 15
+
+
+State 8
+
+    4 statement: expression_with_block .
+
+    $default  reduce using rule 4 (statement)
+
+
+State 9
+
+    7 expression_without_block: scalar .
+
+    $default  reduce using rule 7 (expression_without_block)
+
+
+State 10
+
+    9 expression_without_block: T_PLUS expression .
+
+    $default  reduce using rule 9 (expression_without_block)
+
+
+State 11
+
+    5 expression: expression_without_block .
+    8 expression_without_block: expression_without_block . T_PLUS expression
+
+    T_PLUS  shift, and go to state 14
+
+    T_PLUS    [reduce using rule 5 (expression)]
+    $default  reduce using rule 5 (expression)
+
+
+State 12
+
+    6 expression: expression_with_block .
+
+    $default  reduce using rule 6 (expression)
+
+
+State 13
+
+   10 expression_with_block: T_MATCH T_LEFT . expression T_RIGHT T_CURLY_LEFT T_CURLY_RIGHT
+
+    T_INT    shift, and go to state 3
+    T_PLUS   shift, and go to state 4
+    T_MATCH  shift, and go to state 5
+
+    expression                go to state 16
+    expression_without_block  go to state 11
+    expression_with_block     go to state 12
+    scalar                    go to state 9
+
+
+State 14
+
+    8 expression_without_block: expression_without_block T_PLUS . expression
+
+    T_INT    shift, and go to state 3
+    T_PLUS   shift, and go to state 4
+    T_MATCH  shift, and go to state 5
+
+    expression                go to state 17
+    expression_without_block  go to state 11
+    expression_with_block     go to state 12
+    scalar                    go to state 9
+
+
+State 15
+
+    3 statement: expression_without_block T_SEMICOLON .
+
+    $default  reduce using rule 3 (statement)
+
+
+State 16
+
+   10 expression_with_block: T_MATCH T_LEFT expression . T_RIGHT T_CURLY_LEFT T_CURLY_RIGHT
+
+    T_RIGHT  shift, and go to state 18
+
+
+State 17
+
+    8 expression_without_block: expression_without_block T_PLUS expression .
+
+    $default  reduce using rule 8 (expression_without_block)
+
+
+State 18
+
+   10 expression_with_block: T_MATCH T_LEFT expression T_RIGHT . T_CURLY_LEFT T_CURLY_RIGHT
+
+    T_CURLY_LEFT  shift, and go to state 19
+
+
+State 19
+
+   10 expression_with_block: T_MATCH T_LEFT expression T_RIGHT T_CURLY_LEFT . T_CURLY_RIGHT
+
+    T_CURLY_RIGHT  shift, and go to state 20
+
+
+State 20
+
+   10 expression_with_block: T_MATCH T_LEFT expression T_RIGHT T_CURLY_LEFT T_CURLY_RIGHT .
+
+    $default  reduce using rule 10 (expression_with_block)
